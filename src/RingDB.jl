@@ -90,10 +90,16 @@ include("./Database.jl")
 include("./Event.jl")
 include("./Priors/AbstractPriors.jl")
 include("./Priors/RedshiftPriors.jl")
+include("./Priors/MassPriors.jl")
+include("./Transformations/AbstractTransformation.jl")
 
 
 export ringdb, astropy, units, Planck15, GLOBAL_CONSTS
 export install, Database, Event, Strain, PSD, Posteriors
-export EuclidianDistancePrior, ComovingDistancePrior, evaluate, evaluate!
+export AbstractPrior, IdentityPrior, ProductPrior
+export EuclidianDistancePrior, ComovingDistancePrior
+export DetectorFrameMassesPrior, FromSecondaryToMassRatio
+export evaluate, evaluate!
+export AbstractTransformation, Transformation, forward, inverse, domain_columns, image_columns
 
 end

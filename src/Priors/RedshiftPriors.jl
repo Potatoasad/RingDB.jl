@@ -36,6 +36,10 @@ function evaluate(df::DataFrame, P::EuclidianDistancePrior)
 end
 
 
+
+
+
+
 struct ComovingDistancePrior{T,L,K} <: AbstractPrior
 	var_names::T
 	z_max::L
@@ -51,8 +55,6 @@ function ComovingDistancePrior(var_names::T, z_max::L) where {T <: AbstractVecto
 	interpolant = linear_interpolation(z_grid, prior)
 	ComovingDistancePrior(var_names, z_max, interpolant)
 end
-
-
 
 function evaluate(df::DataFrame, P::ComovingDistancePrior)
 	(z,) = grab_data(df, P.var_names)
