@@ -1,4 +1,4 @@
-function test_transformations()
+function test_transformations(rtol=1e-3)
 	masses = LinRange(5,100,1000)
 	mass_ratios = LinRange(0.001,1,1000)
 	redshift = LinRange(0.001,3,1000)
@@ -23,5 +23,5 @@ function test_transformations()
 
 	final_df = inverse(ToChirpDetector, forward(ToChirpDetector, df))
 
-	all(all(abs.(final_df[!, col] .- df[!, col]) .<= 1e-3) for col ∈ [:mass_1_source, :mass_ratio, :redshift])
+	all(all(abs.(final_df[!, col] .- df[!, col]) .<= rtol) for col ∈ [:mass_1_source, :mass_ratio, :redshift])
 end
