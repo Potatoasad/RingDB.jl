@@ -3,52 +3,6 @@ module RingDB
 
 using Conda, PyCall, DataFrames
 
-#const ringdb = PyNULL()
-#const astropy = PyNULL()
-#const units = PyNULL()
-#const Planck15 = PyNULL()
-
-"""function __init__()
-	copy!(ringdb, pyimport("ringdb"))
-	copy!(astropy, pyimport_conda("astropy", "astropy"))
-	#copy!(units, astropy.units)
-	#copy!(Planck15, astropy.cosmology.Planck15)
-end"""
-
-
-"""
-function __init__()
-	try
-		copy!(ringdb, pyimport("ringdb"))
-	catch
-		Conda.pip_interop(true)
-		Conda.pip("install", "git+https://github.com/maxisi/ringdown")
-		Conda.pip("install", "git+https://github.com/Potatoasad/ringdb");
-		copy!(ringdb, pyimport("ringdb"))
-	end
-
-	try
-		copy!(astropy, pyimport_conda("astropy", "astropy"))
-		#copy!(units, pyimport_conda("astropy.units", "astropy"))
-		#copy!(Planck15, pyimport_conda("astropy.cosmology.Planck15", "astropy"))
-	catch
-		Conda.pip_interop(true)
-		#Conda.add("astropy")
-		copy!(astropy, pyimport_conda("astropy", "astropy"))
-		copy!(units, pyimport_conda("astropy.units", "astropy"))
-		copy!(Planck15, pyimport_conda("astropy.cosmology.Planck15", "astropy"))
-	end
-end
-?"""
-
-const scipy_opt = PyNULL()
-
-"""
-function __init__()
-    copy!(scipy_opt, pyimport("astropy"))
-end
-"""
-
 const ringdb = PyNULL()
 const astropy = PyNULL()
 const units = PyNULL()
@@ -100,6 +54,6 @@ export AbstractPrior, IdentityPrior, ProductPrior
 export EuclidianDistancePrior, ComovingDistancePrior
 export DetectorFrameMassesPrior, FromSecondaryToMassRatio
 export evaluate, evaluate!
-export AbstractTransformation, Transformation, forward, inverse, domain_columns, image_columns
+export AbstractTransformation, Transformation, forward, inverse, domain_columns, image_columns, to_chirp_mass
 
 end
