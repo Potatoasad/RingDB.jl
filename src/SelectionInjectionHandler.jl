@@ -35,7 +35,7 @@ function get_N_draws(A::AbstractSelectionInjections; overwrite=false)
 
 	fid = h5open(selection_file, "r")
 
-	cols = keys(fid["injections"])
+	#cols = keys(fid["injections"])
 	#df_selections = DataFrame([fid["injections"][col][:] for col ∈ cols], cols)
 	N_draws = read_attribute(fid, "total_generated")
 
@@ -43,6 +43,25 @@ function get_N_draws(A::AbstractSelectionInjections; overwrite=false)
 
 	return N_draws
 end
+
+get_total_generated = get_N_draws
+
+function get_analysis_time(A::AbstractSelectionInjections; overwrite=false)
+	selection_file = filepath(A)
+	download_file(A; overwrite=overwrite)
+
+	fid = h5open(selection_file, "r")
+
+	#cols = keys(fid["injections"])
+	#df_selections = DataFrame([fid["injections"][col][:] for col ∈ cols], cols)
+	analysis_time_yr = read_attribute(fid, "analysis_time_s")  / 365.25 / 24 / 60 / 60
+
+	close(fid)
+
+	return analysis_time_yr
+end
+
+
 
 
 function implement_cuts(df_selections; ifar_threshold = 1, snr_threshold = 11, m_min = 2.0, m_max=100.0, z_max = 3.0)

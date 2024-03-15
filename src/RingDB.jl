@@ -46,6 +46,7 @@ include("./SelectionInjectionHandler.jl")
 include("./Priors/AbstractPriors.jl")
 include("./Priors/RedshiftPriors.jl")
 include("./Priors/MassPriors.jl")
+include("./GWpopPosteriorFile.jl")
 include("./Transformations/AbstractTransformation.jl")
 
 
@@ -56,7 +57,8 @@ export EuclidianDistancePrior, ComovingDistancePrior
 export DetectorFrameMassesPrior, FromSecondaryToMassRatio
 export evaluate, evaluate!
 export AbstractTransformation, Transformation, forward, inverse, domain_columns, image_columns, to_chirp_mass
-export download_file, get_injections, get_N_draws, implement_cuts
+export download_file, get_injections, get_N_draws, implement_cuts, get_total_generated, get_analysis_time
 export AbstractSelectionInjections, O3_sensitivity, O3a_sensitivity, O3b_sensitivity, O1_O2_O3_sensitivity
+export GWPopPosteriorFile
 
 end
