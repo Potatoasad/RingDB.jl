@@ -10,6 +10,8 @@ function evaluate(df::DataFrame, P::DetectorFrameMassesPrior)
 end
 
 
+FromDetectorMassToSourceMass = DetectorFrameMassesPrior
+
 
 struct FromSecondaryToMassRatio{T} <: AbstractPrior
 	var_names::T

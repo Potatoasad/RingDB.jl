@@ -46,6 +46,8 @@ include("./SelectionInjectionHandler.jl")
 include("./Priors/AbstractPriors.jl")
 include("./Priors/RedshiftPriors.jl")
 include("./Priors/MassPriors.jl")
+include("./Priors/SpinPriors.jl")
+include("./Priors/SelectionPriors.jl")
 include("./GWpopPosteriorFile.jl")
 include("./Transformations/AbstractTransformation.jl")
 
@@ -54,7 +56,7 @@ export ringdb, astropy, units, Planck15, GLOBAL_CONSTS
 export install, Database, Event, Strain, PSD, Posteriors
 export AbstractPrior, IdentityPrior, ProductPrior
 export EuclidianDistancePrior, ComovingDistancePrior
-export DetectorFrameMassesPrior, FromSecondaryToMassRatio
+export DetectorFrameMassesPrior, FromDetectorMassToSourceMass, FromSecondaryToMassRatio, FromSpinComponentToSpinMagnitude, InjectionSamplingPDF
 export evaluate, evaluate!
 export AbstractTransformation, Transformation, forward, inverse, domain_columns, image_columns, to_chirp_mass
 export download_file, get_injections, get_N_draws, implement_cuts, get_total_generated, get_analysis_time
