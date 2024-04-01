@@ -81,6 +81,8 @@ function implement_cuts(df_selections; ifar_threshold = 1, snr_threshold = 11, m
 
 	select!(df_detected, :, [:spin1x, :spin1y, :spin1z] => ByRow((x,y,z) -> √(x^2 + y^2 + z^2)) => :chi_1)
 	select!(df_detected, :, [:spin2x, :spin2y, :spin2z] => ByRow((x,y,z) -> √(x^2 + y^2 + z^2)) => :chi_2)
+	select!(df_detected, :, [:spin1z, :chi_1] => ByRow((s_z, χ) -> s_z/χ) => :cos_tilt_1)
+	select!(df_detected, :, [:spin2z, :chi_2] => ByRow((s_z, χ) -> s_z/χ) => :cos_tilt_2)
 	select!(df_detected, :, [:mass1_source, :mass2_source] => ByRow((m₁, m₂) -> m₂/m₁) => :mass_ratio)
 	select!(df_detected, :, [:mass1_source, :mass_ratio] => ByRow((m₁,q) -> (m₁ * (q^3 / (1+q))^(1/5))) => :chirp_mass)
 
@@ -90,7 +92,6 @@ function implement_cuts(df_selections; ifar_threshold = 1, snr_threshold = 11, m
 	df_detected = df_detected[m_cutoff_det .& z_cutoff_det, :]
 	return df_detected
 end
-
 
 
 

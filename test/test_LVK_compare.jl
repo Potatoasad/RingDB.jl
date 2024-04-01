@@ -1,4 +1,4 @@
-LVK_posteriors_dir = joinpath(homedir(), "Documents/posteriors.pkl")
+LVK_posteriors_dir = joinpath(homedir(), "Documents/Data/posteriors.pkl")
 
 function check_if_priors_match_LVK(;rtol=1e-2, filepath=LVK_posteriors_dir)
 	py"""
@@ -18,6 +18,7 @@ function check_if_priors_match_LVK(;rtol=1e-2, filepath=LVK_posteriors_dir)
 	all_posteriors = DataFrame[pandas_to_jl(py"posts[$i]") for i ∈ 0:68]
 
 	max_z = maximum( maximum(post[!, :redshift]) * 1.01 for post ∈ all_posteriors ) 
+	@show max_z
 
 
 	test_posterior = pandas_to_jl(py"posts[0]")
