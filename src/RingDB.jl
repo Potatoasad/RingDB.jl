@@ -1,24 +1,26 @@
 __precompile__()
 module RingDB
 
-using Conda, PyCall, DataFrames
+using PythonCall, DataFrames
 
-const ringdb = PyNULL()
-const astropy = PyNULL()
-const units = PyNULL()
-const Planck15 = PyNULL()
-const GLOBAL_CONSTS = Dict{Symbol, Float64}()
+astropy = @pyconst(pyimport("astropy"))
+units = @pyconst(pyimport("astropy.units"))
+cosmo = @pyconst(pyimport("astropy.cosmology"))
+Planck15 = cosmo.Planck15
+d_H = pyconvert(Float64, @pyconst(cosmo.Planck15.hubble_distance.to(units.Gpc).value))
+#GLOBAL_CONSTS[:d_H] = @pyconst(cosmo.Planck15.hubble_distance.to(units.Gpc).value)
 
+
+
+
+
+#const ringdb = PyNULL()
+#const astropy = PyNULL()
+#const units = PyNULL()
+#const Planck15 = PyNULL()
+
+"""
 function __init__()
-	try
-		copy!(ringdb, pyimport("ringdb"))
-	catch
-		Conda.pip_interop(true)
-		Conda.pip("install", "git+https://github.com/maxisi/ringdown")
-		Conda.pip("install", "git+https://github.com/Potatoasad/ringdb");
-		copy!(ringdb, pyimport("ringdb"))
-	end
-
 	try
 		copy!(astropy, pyimport_conda("astropy", "astropy"))
 		copy!(units, pyimport_conda("astropy.units", "astropy"))
@@ -36,24 +38,26 @@ function __init__()
 	end
 end
 
+"""
 
 
 
 
-include("./Database.jl")
-include("./Event.jl")
+
+#include("./Database.jl")
+#include("./Event.jl")
 include("./SelectionInjectionHandler.jl")
 include("./Priors/AbstractPriors.jl")
 include("./Priors/RedshiftPriors.jl")
 include("./Priors/MassPriors.jl")
 include("./Priors/SpinPriors.jl")
 include("./Priors/SelectionPriors.jl")
-include("./GWpopPosteriorFile.jl")
+#include("./GWpopPosteriorFile.jl")
 include("./Transformations/AbstractTransformation.jl")
 
 
-export ringdb, astropy, units, Planck15, GLOBAL_CONSTS
-export install, Database, Event, Strain, PSD, Posteriors
+export astropy, units, Planck15#, GLOBAL_CONSTS
+#export install, Database, Event, Strain, PSD, Posteriors
 export AbstractPrior, IdentityPrior, ProductPrior
 export EuclidianDistancePrior, ComovingDistancePrior
 export DetectorFrameMassesPrior, FromDetectorMassToSourceMass, FromSecondaryToMassRatio, FromSpinComponentToSpinMagnitude, InjectionSamplingPDF
@@ -61,6 +65,6 @@ export evaluate, evaluate!
 export AbstractTransformation, Transformation, forward, inverse, domain_columns, image_columns, to_chirp_mass
 export download_file, get_injections, get_N_draws, implement_cuts, get_total_generated, get_analysis_time
 export AbstractSelectionInjections, O3_sensitivity, O3a_sensitivity, O3b_sensitivity, O1_O2_O3_sensitivity
-export GWPopPosteriorFile
+#export GWPopPosteriorFile
 
 end

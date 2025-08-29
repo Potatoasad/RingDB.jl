@@ -1,13 +1,19 @@
 using DataFrames, Interpolations, Trapz
 
-luminosity_distance(redshift) = py"$Planck15.luminosity_distance($redshift).to($units.Gpc).value"
-efunc(redshift) = py"$Planck15.efunc($redshift)"
-differential_comoving_volume(redshift) = py"$Planck15.differential_comoving_volume($redshift).value * 4 * $π / (1 + $redshift)"
+#luminosity_distance(redshift) = py"$Planck15.luminosity_distance($redshift).to($units.Gpc).value"
+#efunc(redshift) = py"$Planck15.efunc($redshift)"
+#differential_comoving_volume(redshift) = py"$Planck15.differential_comoving_volume($redshift).value * 4 * $π / (1 + $redshift)"
+
+make_1D_array(x) = pyconvert(Vector{Float64}, x);
+luminosity_distance(redshift) = Planck15.luminosity_distance(np.array(redshift)).to(units.Gpc).value |> make_1D_array
+efunc(redshift) = Planck15.efunc(np.array(redshift)) |> make_1D_array
+differential_comoving_volume(redshift) = make_1D_array(Planck15.differential_comoving_volume(np.array(redshift)).value) .* 4 .* π ./ (1 .+ redshift)
 
 function euclidian_distance_prior(z)
 	dL = luminosity_distance(z)
 	E = efunc(z)
-	d_H = GLOBAL_CONSTS[:d_H]
+	#d_H = GLOBAL_CONSTS[:d_H]
+	d_H = @pyconst(cosmo.Planck15.hubble_distance.to(units.Gpc).value)
 	return @. ( dL^2 * ((dL / (1 + z)) + ((1 + z)*d_H/E)) )
 end
 
